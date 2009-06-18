@@ -22,6 +22,8 @@ $_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
 			If it doesn't work for you please let me know, I don't have access to many of these networks.</p>
 			<p><strong>Disclaimer:</strong> While this enables tethering, I don't know for sure if your carrier will be able to
 			  detect that you are using it. I assume not, however I may be wrong. Keep an eye on your bill</p>
+			  <p><strong>Want to get rid of it?</strong> Simple, Just open Settings, and look in General -&gt; Profiles. 
+			    Select the Tether profile, and remove. Easy as!</p>
 	<form action="/sendconfig/" method="get">
 		<fieldset>
 		<? if($message == 'sent') { ?>

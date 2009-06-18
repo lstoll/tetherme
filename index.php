@@ -1,6 +1,7 @@
 <?
 $message = $_GET['message'];
 $_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
+$on_iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
 ?>
 <html>
 <head>
@@ -55,7 +56,7 @@ $_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
 		<input type="submit" name="submit" value="Send"/>
 		</fieldset>
 	</form>
-	<p> problems? suggestions? <a href="mailto:lstoll.net?subject=TetherMe Feedback">mail me</a>. Created by <a href="http://lstoll.net">Lincoln Stoll</a></p>
+	<p> problems? suggestions? <a href="mailto:lstoll@lstoll.net?subject=TetherMe Feedback">mail me</a>. Created by <a href="http://lstoll.net">Lincoln Stoll</a></p>
 	</div>
 	</div>
   <script type="text/javascript">

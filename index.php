@@ -1,5 +1,7 @@
 <?
+require_once('include/carriers.php');
 $message = $_GET['message'];
+$message_type = $_GET['message_type'];
 $_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
 $on_iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
 ?>
@@ -27,26 +29,20 @@ $on_iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
 			    Select the Tether profile, and remove. Easy as!</p>
 	<form action="/sendconfig/" method="get">
 		<fieldset>
-		<? if($message == 'sent') { ?>
-			<div class="success">The config file has been sent to your email - check it on your phone</div>
-		<? } else if($message == 'failed') { ?>
-			<div class="error">Sending the config failed. Please try again</div>
+		<? if($message) { ?>
+			<div class="<?=$message_type?>"><?=$message?></div>
 		<? } ?>
 		<? if ($manual_apn) { ?>
 			<p><a href="/">Choose from a list of carriers?</a></p>
 			<p><label for="apn">APN:</label><br><input class="title" type="text" name="apn"/></p>
+			<p><label for="username">Username (optional):</label><br><input class="title" type="text" name="username"/></p>
+			<p><label for="password">Password (optional):</label><br><input class="title" type="text" name="password"/></p>
 		<? } else {?>
 			<p><a href="/?manual_apn=true">Enter an APN manually?</a></p>
-			<p><label for="apn">Carrier:</label><br><select class="title" name="apn">
-				<option value="telstra.internet">AU - Telstra</option>
-				<option value="3internet">AU - Three</option>
-				<option value="internet">AU - Optus</option>
-				<option value="vfinternet.au">AU - Vodafone</option>
-				<option value="gprs.swisscom.ch">CH - Swisscom</option>
-				<option value="three.co.uk">UK - Three</option>
-	      <option value="mobile.o2.co.uk">UK - O2 (Pay Monthly)</option>
-	      <option value="payandgo.o2.co.uk">UK - O2 (Pay and Go)</option>
-	      <option value="internet">US - AT&T</option>
+			<p><label for="apn">Carrier:</label><br><select class="title" name="carrier">
+			  <?php foreach ($carriers as $name => $data) { ?>
+				  <option value="<?=$name?>"><?=$data['name']?></option>
+	      <? } ?>
 			</select></p>
 		<? } ?>
 		<p> If you want to download the file direct on your phone, just click download</p>

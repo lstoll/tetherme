@@ -1,10 +1,28 @@
 <?php 
+require_once('../include/carriers.php');
 ob_start(); //Turn on output buffering 
 
 $action = $_GET['submit'];
 
-// get the apn
-$apn = $_GET['apn'];
+// if we have a carrier specified, load them
+if ($_GET['carrier']) {
+  $carrier_name = $_GET['carrier'];
+  $carrier = $carriers[$carrier_name];
+  $apn = carrier_apn_snippet($carrier);
+}
+else {
+  // get the params
+    if ($_GET['apn']) {
+    $carrier = array('apn' => $_GET['apn'], 'username' => $_GET['username'],
+      'password' => $_GET['password']);
+    $apn = carrier_apn_snippet($carrier);
+  }
+  else {
+    header( 'Location: /?message_type=error&manual_apn=true&message='.
+      urlencode('You must enter at least an APN.'));
+    exit();
+  }
+}
 
 //define the receiver of the email 
 $to = $_GET['to']; 
@@ -37,8 +55,8 @@ $headers .= "Content-Type: multipart/mixed; boundary=\"".$random_hash."\"\r\n";
 						<key>apns</key>
 						<array>
 							<dict>
-								<key>apn</key>
-								<string><?=$apn?></string>
+<?=$apn?>
+								
 								<key>type-mask</key>
 								<integer>-8</integer>
 
@@ -83,11 +101,12 @@ $headers .= "Content-Type: multipart/mixed; boundary=\"".$random_hash."\"\r\n";
 </plist>
 <?
 $config = ob_get_clean(); 
+ob_start();
 //encode it with MIME base64,
 //and split it into smaller chunks
 $attachment = chunk_split(base64_encode($config));
 ?>
---<?php echo $random_hash; ?>
+--<?= $random_hash; ?>
 
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
@@ -100,14 +119,14 @@ Enjoy!
 
 
 
---<?php echo $random_hash; ?>
+--<?= $random_hash; ?>
 
 Content-Type: application/x-apple-aspen-config; name="tether_config.mobileconfig"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment
 
-<?php echo $attachment; ?>
---<?php echo $random_hash; ?>
+<?= $attachment; ?>
+--<?= $random_hash; ?>
 
 <?php 
 //copy current buffer contents into $message variable and delete current output buffer 
@@ -117,7 +136,14 @@ if ($action == "Send") {
   //send the email 
   $mail_sent = @mail( $to, $subject, $message, $headers ); 
   //if the message is sent successfully print "Mail sent". Otherwise print "Mail failed" 
-  $mail_sent ? header( 'Location: /?message=sent' ) : header( 'Location: /?message=failed' ) ;
+  if ($mail_sent) {
+     header( 'Location: /?message_type=success&message='. 
+       urlencode('The config file has been sent to your email - check it on your phone') );
+  }
+  else {
+    header( 'Location: /?message_type=error&message='.
+      urlencode('Sending the config failed. Please try again'));
+  }
 }
 else if ($action == "Download") {
   // send the file

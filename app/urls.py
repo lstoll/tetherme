@@ -6,6 +6,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     (r'^$', 'app.views.index'),
+    (r'^admin', 'app.views_admin.index'),
     # Example:
     # (r'^tetherme_django/', include('tetherme_django.foo.urls')),
 

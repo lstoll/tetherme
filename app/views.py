@@ -13,5 +13,5 @@ def index(request):
   #$message_type = $_GET['message_type'];
   #$_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
   c = {'form': form, 'message': message, 'message_type': message_type,
-    'carriers': Carrier.all().order("name").fetch(1000)}
+    'carriers': Carrier.all().filter('listed =', True).order("name").fetch(1000)}
   return render_to_response('index.html', c)

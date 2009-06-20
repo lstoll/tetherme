@@ -14,5 +14,6 @@ class MessageSent(db.Model):
     
 class BundleDownloaded(db.Model):
     ip = db.StringProperty()
+    ua = db.StringProperty()
     when = db.DateTimeProperty(auto_now_add=True)
     carrier = db.ReferenceProperty(Carrier)

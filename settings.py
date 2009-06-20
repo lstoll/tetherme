@@ -14,7 +14,16 @@ DATABASE_ENGINE = 'appengine'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'ragendja.auth.middleware.GoogleAuthenticationMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 )
+
+# Change the User model class
+AUTH_USER_MODULE = 'ragendja.auth.google_models'
+AUTH_ADMIN_MODULE = 'ragendja.auth.google_admin'
+LOGIN_URL = '/account/login/'
+LOGOUT_URL = '/account/logout/'
+LOGIN_REDIRECT_URL = '/'
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',

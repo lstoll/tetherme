@@ -24,12 +24,18 @@
         the profile. Once installed, look in Settings -> General -> Network -> Tethering. Turn it on, and you are
         right to go! (Make sure you are running iTunes 8.2). If the option isn't there, try restarting your phone.
         </div>
+        <div class="google_ads">
+          {{google_ad|safe}}
+        </div>
       <a class="whiteButton" href="#carriers">Choose Carrier</a>
       <a class="whiteButton" href="#manual">Enter Settings</a>
     </div>
     
     <!-- Carrier List -->
     <ul id="carriers" title="Carriers">
+      <div>
+        {{google_ad|safe}}
+      </div>
       {% for carrier in carriers %}
     	  <li><a href="/get_config/{{carrier.key}}/tether.mobileconfig" target="_self">{{carrier.name}}</a></li>
       {% endfor %}
@@ -38,6 +44,9 @@
     <!-- Manual Entry -->
     <form id="manual" title="Manual Entry" class="panel" action="/submit_request/" method="POST" target="_self">
         <h2>APN Settings</h2>
+        <div class="google_ads">
+          {{google_ad|safe}}
+        </div>
         <fieldset>
             <div class="row">
                 <label>APN</label>

@@ -29,3 +29,8 @@
 .info dl.brief dt {
 	position: absolute;
 }
+
+.google_ads {
+  padding-top: 5px;
+  padding-bottom: 15px;
+}

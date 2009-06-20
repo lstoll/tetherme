@@ -5,6 +5,9 @@ from django.template import Context
 from django.core.cache import cache
 from app.models import *
 import urllib
+import urllib2
+from math import floor
+from time import time
 from google.appengine.api import mail
 
 def index(request):
@@ -29,7 +32,7 @@ def index_iphone(request):
   else:
     form = '_carrier_select_form.html'
   c = {'form': form, 'message': message, 'message_type': message_type,
-    'carriers': listed_carriers()}
+    'carriers': listed_carriers(), 'google_ad': google_ad(request)}
   return render_to_response('index_iphone.html', c)
   
 def get_config(request, carrier_id):
@@ -123,3 +126,37 @@ def listed_carriers():
     items = Carrier.all().filter('listed =', True).order("name").fetch(1000)
     cache.set('listed_carriers', items, 10 * 60)
   return items
+  
+def google_ad(request, publisher_id='pub-6338002235598624', format='mobile_double'):
+  scheme = 'https://' if request.is_secure() else 'http://'
+  params = {
+    'ad_type':'text_image',
+    'channel':'',
+    'client':'ca-mb-' + publisher_id,
+    'dt':repr(floor(1000*time())),
+    'format':format,
+    'https':'on' if request.is_secure() else '',
+    'host':scheme + request.META.get('HTTP_HOST', ''),
+    'ip':request.META.get('REMOTE_ADDR', ''),
+    'markup':'xhtml',
+    'oe':'utf8',
+    'output':'xhtml',
+    'ref':request.META.get('HTTP_REFERER', ''),
+    'url':scheme + request.META.get('HTTP_HOST', '') + \
+          request.META.get('PATH_INFO', ''),
+    'useragent':request.META.get('HTTP_USER_AGENT', '')
+  }
+  screen_res = request.META.get('HTTP_UA_PIXELS', '')
+  delimiter = 'x'
+  if screen_res == '':
+    screen_res = request.META.get('HTTP_X_UP_DEVCAP_SCREENPIXELS', '')
+    delimiter = ','
+  res_array = screen_res.split(delimiter)
+  if len(res_array) == 2:
+    params['u_w'] = res_array[0]
+    params['u_h'] = res_array[1]
+  dcmguid = request.META.get('HTTP_X_DCMGUID', '')
+  if dcmguid != '':
+    params['dcmguid'] = dcmguid
+  url = 'http://pagead2.googlesyndication.com/pagead/ads?' + urllib.urlencode(params)
+  return urllib2.urlopen(url).read()

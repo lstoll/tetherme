@@ -6,7 +6,11 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     (r'^$', 'app.views.index'),
-    (r'^admin', 'app.views_admin.index'),
+    (r'^admin/$', 'app.views_admin.index'),
+    (r'^admin/create_carrier/$', 'app.views_admin.create_carrier'),
+    (r'^admin/update_carrier/(.*)/$', 'app.views_admin.update_carrier'),
+    (r'^admin/delete_carrier/(.*)/$', 'app.views_admin.delete_carrier'),
+    # (?P<object_id>\d+)/?$
     # Example:
     # (r'^tetherme_django/', include('tetherme_django.foo.urls')),
 

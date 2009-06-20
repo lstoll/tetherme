@@ -1,0 +1,15 @@
+<html>
+<head>
+  <link rel="stylesheet" href="/static/css/blueprint/screen.css" type="text/css" media="screen, projection">
+</head>
+<body>
+  <div class="container" style="padding-top: 20px;"><!-- inline CSS is evil -->
+	<div class="span-6">&nbsp;</div>
+	<div class="span-12">
+{% for object in object_list %}
+  <p>{{object.name}}: {{object.apn}} <a href="/admin/update_carrier/{{object.id}}/">Update</a> | <a href="/admin/delete_carrier/{{object.id}}/">Delete</a></p>
+{% endfor %}
+<br/><br/><a href="/admin/create_carrier/">Add entry</a>
+</div>
+</body>
+</html>

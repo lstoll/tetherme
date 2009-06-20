@@ -1,0 +1,31 @@
+.info {
+	margin-bottom: 10px;
+	padding: 5px;
+	border: 1px solid #777;
+	background: white;
+	min-height: 120px;
+	-webkit-border-radius: 10px;
+}
+
+.info h2 {
+	margin-top: 0;
+}
+
+.info h2 strong {
+	color: #777;
+}
+
+.info dl.brief {
+	display: block;
+	float: right;
+	font-size: 12px;
+	margin: 0 5px 5px 5px;
+	padding: 5px;
+	border: 1px solid #aaa;
+    background: rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 10px;
+}
+
+.info dl.brief dt {
+	position: absolute;
+}

@@ -1,7 +1,7 @@
 <p><a href="/?manual_apn=true">Enter an APN manually?</a></p>
 <p><label for="apn">Carrier:</label><br><select class="title" name="carrier">
   {{carriers}}
-  {% for key,value in carriers.items %}
-	  <option value="{{key}}">{{value.name}}</option>
+  {% for carrier in carriers %}
+	  <option value="{{carrier.id}}">{{carrier.name}}</option>
   {% endfor %}
 </select></p>

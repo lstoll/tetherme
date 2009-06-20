@@ -15,9 +15,6 @@ def index(request):
     form = '_manual_apn_form.html'
   else:
     form = '_carrier_select_form.html'
-  #$message = $_GET['message'];
-  #$message_type = $_GET['message_type'];
-  #$_GET['manual_apn'] == 'true' ? $manual_apn = true : $manual_apn = false;
   c = {'form': form, 'message': message, 'message_type': message_type,
     'carriers': Carrier.all().filter('listed =', True).order("name").fetch(1000)}
   return render_to_response('index.html', c)

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>TetherMe</title>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+  <style type="text/css" media="screen">@import "/static/iui/iui.css";</style>
+  <script type="application/x-javascript" src="/static/iui/iui.js"></script>
+</head>
+
+<body>
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+    </div>
+    
+    <!-- Home Page-->
+    <div id="home" title="TetherMe" selected="true" class="panel">
+        <h3>Welcome to TetherMe</h3>
+        <p>This site will help you get tethering up and running on your phone. Either choose your carrier from the list,
+        or click enter settings and type in the APN details. When you submit, you phone will prompt you to install
+        the profile. Once installed, look in Settings -> General -> Network -> Tethering. Turn it on, and you are
+        right to go! (Make sure you are running iTunes 8.2). If the option isn't there, try restarting your phone.</p>
+      <a class="whiteButton" href="#carriers">Choose Carrier</a>
+      <a class="whiteButton" href="#manual">Enter Settings</a>
+    </div>
+    
+    <!-- Carrier List -->
+    <ul id="carriers" title="Carriers">
+      {% for carrier in carriers %}
+    	  <li><a href="/get_config/{{carrier.key}}/tether.mobileconfig" target="_self">{{carrier.name}}</a></li>
+      {% endfor %}
+    </ul>
+    
+    <!-- Manual Entry -->
+    <form id="manual" title="Manual Entry" class="panel" action="/submit_request/" method="POST" target="_self">
+        <h2>APN Settings</h2>
+        <fieldset>
+            <div class="row">
+                <label>APN</label>
+                <input type="text" name="apn"/>
+            </div>
+            <div class="row">
+                <label>Username</label>
+                <input type="text" name="username"/>
+            </div>
+            <div class="row">
+                <label>Password</label>
+                <input type="text" name="password"/>
+            </div>
+        </fieldset>
+        <input type="hidden" name="submit_action" value="Download">
+        <a class="whiteButton" type="submit" href="#">Get Config</a>
+    </form>
+    
+</body>
+
+</html>

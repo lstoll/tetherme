@@ -2,13 +2,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from app.models import *
 import urllib
 from google.appengine.api import mail
 
-@cache_page(60 * 10)
 def index(request):
+  if request.META["HTTP_USER_AGENT"].find('iPhone') >= 0:
+    # user is coming from iPhone. Send to iphone page
+    return HttpResponseRedirect('/iphone')
   message =  request.GET.get('message', False)
   message_type =  request.GET.get('message_type', '')
   if  request.GET.get('manual_apn', '') == 'true':
@@ -16,8 +18,19 @@ def index(request):
   else:
     form = '_carrier_select_form.html'
   c = {'form': form, 'message': message, 'message_type': message_type,
-    'carriers': Carrier.all().filter('listed =', True).order("name").fetch(1000)}
+    'carriers': listed_carriers()}
   return render_to_response('index.html', c)
+  
+def index_iphone(request):
+  message =  request.GET.get('message', False)
+  message_type =  request.GET.get('message_type', '')
+  if  request.GET.get('manual_apn', '') == 'true':
+    form = '_manual_apn_form.html'
+  else:
+    form = '_carrier_select_form.html'
+  c = {'form': form, 'message': message, 'message_type': message_type,
+    'carriers': listed_carriers()}
+  return render_to_response('index_iphone.html', c)
   
 def get_config(request, carrier_id):
   # get the carrier by ID
@@ -38,12 +51,12 @@ def get_config(request, carrier_id):
   
 # This needs to be redone with proper forms, not this php like crap
 def submit_request(request):
-  carrier = request.GET.get('carrier', False)
-  apn = request.GET.get('apn', '')
-  username = request.GET.get('username', '')
-  password = request.GET.get('password', '')
-  action = request.GET.get('submit', '')
-  to = request.GET.get('to', '')
+  carrier = request.REQUEST.get('carrier', False)
+  apn = request.REQUEST.get('apn', '')
+  username = request.REQUEST.get('username', '')
+  password = request.REQUEST.get('password', '')
+  action = request.REQUEST.get('submit_action', '')
+  to = request.REQUEST.get('to', '')
   
   carrier_id = ''
   # check to see if we have a carrier specified. If so, act on that.
@@ -103,3 +116,10 @@ def submit_request(request):
   
   #end
   
+# returns the listed carriers, getting from cache if there, otherwise caching
+def listed_carriers():
+  items = cache.get('listed_carriers')
+  if not items:
+    items = Carrier.all().filter('listed =', True).order("name").fetch(1000)
+    cache.set('listed_carriers', items, 10 * 60)
+  return items

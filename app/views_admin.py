@@ -6,7 +6,7 @@ from django.views.generic.create_update import *
 from app.models import Carrier
 
 def index(request):
-  return object_list(request, Carrier.all())
+  return object_list(request, Carrier.all().order('-listed'))
   
 def create_carrier(request):
     return create_object(request, Carrier, post_save_redirect='/admin')

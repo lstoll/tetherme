@@ -9,7 +9,10 @@ handlers:
 
 - url: /admin/.*
   login: admin
-  script: main.py
+  script: common/appenginepatch/main.py
   
-- url: .*
-  script: main.py
+- url: /media
+  static_dir: _generated_media
+
+- url: /.*
+  script: common/appenginepatch/main.py

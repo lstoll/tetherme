@@ -2,10 +2,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.loader import get_template
 from django.template import Context
+from django.views.decorators.cache import cache_page
 from app.models import *
 import urllib
 from google.appengine.api import mail
 
+@cache_page(60 * 10)
 def index(request):
   message =  request.GET.get('message', False)
   message_type =  request.GET.get('message_type', '')

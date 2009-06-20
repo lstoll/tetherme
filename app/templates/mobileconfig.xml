@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<array>
+				<dict>
+					<key>DefaultsData</key>
+					<dict>
+						<key>apns</key>
+						<array>
+							<dict>
+                <key>apn</key>
+                <string>{{carrier.apn}}</string>
+                <key>username</key>
+                <string>{{carrier.username}}</string>
+                <key>password</key>
+                <string>{{carrier.password}}</string>
+								
+								<key>type-mask</key>
+								<integer>-8</integer>
+
+							</dict>
+						</array>
+					</dict>
+					<key>DefaultsDomainName</key>
+					<string>com.apple.managedCarrier</string>
+				</dict>
+			</array>
+			<key>PayloadDescription</key>
+			<string>Provides customization of carrier Access Point Name.</string>
+			<key>PayloadDisplayName</key>
+			<string>Advanced Settings</string>
+			<key>PayloadIdentifier</key>
+			<string>net.lstoll.tetherme</string>
+			<key>PayloadOrganization</key>
+			<string>http://tetherme.lstoll.net</string>
+			<key>PayloadType</key>
+			<string>com.apple.apn.managed</string>
+			<key>PayloadUUID</key>
+			<string>6F1D509D-A494-444D-9098-F233891019E3</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Enables Tethering</string>
+	<key>PayloadDisplayName</key>
+	<string>Enable Tethering</string>
+	<key>PayloadIdentifier</key>
+	<string>net.lstoll.tetherme</string>
+	<key>PayloadOrganization</key>
+	<string>http://tetherme.lstoll.net</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>A0670934-C558-42E1-9E80-9B8E079E9AE3</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

@@ -44,9 +44,11 @@
     
     <!-- Carrier List -->
     <ul id="carriers" title="Carriers">
-      <div class="google_ads google_ads_spacing">
-        {{google_ad|safe}}
-      </div>
+      <li>
+        <div class="google_ads">
+          {{google_ad|safe}}
+        </div>
+      </li>
       {% for carrier in carriers %}
     	  <li><a href="/get_config/{{carrier.key}}/tether.mobileconfig" target="_self">{{carrier.name}}</a></li>
       {% endfor %}
@@ -55,7 +57,7 @@
     <!-- Manual Entry -->
     <form id="manual" title="Manual Entry" class="panel" action="/submit_request/" method="POST" target="_self">
         <h2>APN Settings</h2>
-        <div class="google_ads">
+        <div class="google_ads google_ads_spacing">
           {{google_ad|safe}}
         </div>
         <fieldset>

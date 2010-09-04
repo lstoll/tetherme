@@ -127,7 +127,7 @@ def listed_carriers():
     cache.set('listed_carriers', items, 10 * 60)
   return items
   
-def google_ad(request, publisher_id='pub-6359067345468916', format='mobile_double'):
+def google_ad(request, publisher_id='pub-5195662196335636', format='mobile_double'):
   scheme = 'https://' if request.is_secure() else 'http://'
   params = {
     'ad_type':'text_image',
